@@ -1,0 +1,991 @@
+
+          -------------------------------------------------------
+          Amber 18 PMEMD                              2018
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 18
+
+| Run on 06/13/2020 at 15:34:43
+
+|   Executable path: /opt/software/Amber/18-foss-2018b-AmberTools-19/bin/pmemd.cuda
+| Working directory: /mnt/gs18/scratch/users/songlin3/run/1264_optimization/acetate/two_steps_tip3p/step1/0.56262
+|          Hostname: lac-083
+
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: heat.in                                                               
+|  MDOUT: heat.out                                                              
+| INPCRD: min.rst                                                               
+|   PARM: step1.prmtop                                                          
+| RESTRT: heat.rst                                                              
+|   REFC: min.rst                                                               
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: heat.netcdf                                                           
+| MDINFO: heat.mdinfo                                                           
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+nvt for free MD                                                                
+ &cntrl                                                                        
+  imin=0,                                                                      
+  irest=0,                                                                     
+  ntx=1,                                                                       
+  ig=-1,                                                                       
+  nstlim=100000,                                                               
+  dt=0.002,                                                                    
+  cut=10.0,                                                                    
+  ntc=2,                                                                       
+  ntf=2,                                                                       
+  ntb=1,                                                                       
+  ntt=3,                                                                       
+  gamma_ln=2.0,                                                                
+  tempi=0.0,                                                                   
+  temp0=300.0,                                                                 
+  ntpr=5000,                                                                   
+  ntwr=5000,                                                                   
+  ntwx=10000,                                                                  
+  ntwv=0,                                                                      
+  ioutfm=1,                                                                    
+  iwrap=0,                                                                     
+  nmropt=1,                                                                    
+  ifsc = 0, icfe=1,                                                            
+  clambda=0.56262,                                                             
+  timask1=':1',                                                                
+  timask2=':2', crgmask = ':2',                                                
+/                                                                              
+&wt TYPE='TEMP0', istep1=0, istep2=90000, value1=0.0, value2=300.0 /           
+&wt TYPE='TEMP0', istep1=90001, istep2=100000, value1=300.0, value2=300.0 /    
+&wt TYPE='DUMPFREQ', istep1=10000, /                                           
+&wt TYPE='END', /                                                              
+
+
+Note: ig = -1. Setting random seed to   120330 based on wallclock time in 
+      microseconds.
+| irandom = 1, using AMBER's internal random number generator (default).
+ 
+|--------------------- INFORMATION ----------------------
+| GPU (CUDA) Version of PMEMD in use: NVIDIA GPU IN USE.
+|                    Version 18.0.0
+| 
+|                      03/25/2018
+| 
+| Implementation by:
+|                    Ross C. Walker     (SDSC)
+|                    Scott Le Grand     (nVIDIA)
+| 
+| Version 18 performance extensions by:
+|                    David Cerutti     (Rutgers)
+| 
+| Precision model in use:
+|      [SPFP] - Single Precision Forces, 64-bit Fixed Point
+|               Accumulation. (Default)
+| 
+|--------------------------------------------------------
+ 
+|----------------- CITATION INFORMATION -----------------
+|
+|    When publishing work that utilized the CUDA version
+|    of AMBER, please cite the following in addition to
+|    the regular AMBER citations:
+|
+|  - Romelia Salomon-Ferrer; Andreas W. Goetz; Duncan
+|    Poole; Scott Le Grand; Ross C. Walker "Routine
+|    microsecond molecular dynamics simulations with
+|    AMBER - Part II: Particle Mesh Ewald", J. Chem.
+|    Theory Comput., 2013, 9 (9), pp3878-3888,
+|    DOI: 10.1021/ct400314y.
+|
+|  - Andreas W. Goetz; Mark J. Williamson; Dong Xu;
+|    Duncan Poole; Scott Le Grand; Ross C. Walker
+|    "Routine microsecond molecular dynamics simulations
+|    with AMBER - Part I: Generalized Born", J. Chem.
+|    Theory Comput., 2012, 8 (5), pp1542-1555.
+|
+|  - Scott Le Grand; Andreas W. Goetz; Ross C. Walker
+|    "SPFP: Speed without compromise - a mixed precision
+|    model for GPU accelerated molecular dynamics
+|    simulations.", Comp. Phys. Comm., 2013, 184
+|    pp374-380, DOI: 10.1016/j.cpc.2012.09.022
+|
+|    When publishing work that utilized the CUDA version
+|    of TI, BAR, MBAR or FEP please cite the following 
+|    three publications in addition to the regular AMBER 
+|    GPU citations:
+|
+|  - Daniel J. Mermelstein; Charles Lin; Gard Nelson; 
+|    Rachael Kretsch; J. Andrew McCammon; Ross C. Walker
+|    "Fast and Flexible GPU Accelerated Binding 
+|    Free Energy Calculations within the AMBER Molecular
+|    Dynamics Package" J. Comp. Chem., 2018,
+|    DOI: 10.1002/jcc.25187
+|
+|  - Tai-Sung Lee; Yuan Hu; Brad Sherborne; Zhuyan Guo;
+|    Darrin M. York
+|    "Toward Fast and Accurate Binding Affinity Prediction with
+|    pmemdGTI: An Efficient Implementation of GPU-Accelerated
+|    Thermodynamic Integration"
+|    J. Chem. Theory Comput., 2017, 13 (7), 3077
+|
+|
+|--------------------------------------------------------
+ 
+|------------------- GPU DEVICE INFO --------------------
+|
+|            CUDA_VISIBLE_DEVICES: 0
+|   CUDA Capable Devices Detected:      1
+|           CUDA Device ID in use:      0
+|                CUDA Device Name: Tesla K80
+|     CUDA Device Global Mem Size:  12206 MB
+| CUDA Device Num Multiprocessors:     13
+|           CUDA Device Core Freq:   0.82 GHz
+|
+|--------------------------------------------------------
+ 
+ 
+| Conditional Compilation Defines Used:
+| PUBFFT
+| BINTRAJ
+| CUDA
+| EMIL
+
+| Largest sphere to fit in unit cell has radius =    27.333
+
+| New format PARM file being parsed.
+| Version =    1.000 Date = 06/13/20 Time = 15:21:32
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+
+| Duplicated    0 dihedrals
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+ getting box info from netcdf restart file
+ NATOM  =   20855 NTYPES =       6 NBONH =   20847 MBONA  =       6
+ NTHETH =      12 MTHETA =       6 NPHIH =      24 MPHIA  =       2
+ NHPARM =       0 NPARM  =       0 NNB   =   27832 NRES   =    6949
+ NBONA  =       6 NTHETA =       6 NPHIA =       2 NUMBND =       5
+ NUMANG =       4 NPTRA  =       3 NATYP =       6 NPHB   =       1
+ IFBOX  =       2 NMXRS  =       7 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+| Coordinate Index Table dimensions:    10   10   10
+| Direct force subcell size =     6.6953    6.6953    6.6953
+
+     BOX TYPE: TRUNCATED OCTAHEDRON
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+
+General flags:
+     imin    =       0, nmropt  =       1
+
+Nature and format of input:
+     ntx     =       1, irest   =       0, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =    5000, ntrx    =       1, ntwr    =    5000
+     iwrap   =       0, ntwx    =   10000, ntwv    =       0, ntwe    =       0
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       2, ntb     =       1, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  10.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Molecular dynamics:
+     nstlim  =    100000, nscm    =      1000, nrespa  =         1
+     t       =   0.00000, dt      =   0.00200, vlimit  =  -1.00000
+
+Langevin dynamics temperature regulation:
+     ig      =  120330
+     temp0   = 300.00000, tempi   =   0.00000, gamma_ln=   2.00000
+
+SHAKE:
+     ntc     =       2, jfastw  =       0
+     tol     =   0.00001
+
+NMR refinement options:
+     iscale  =       0, noeskp  =       1, ipnlty  =       1, mxsub   =       1
+     scalm   = 100.00000, pencut  =   0.10000, tausw   =   0.10000
+
+Free energy options:
+     icfe    =       1, ifsc    =       0, klambda =       1
+     clambda =  0.5626, scalpha =  0.5000, scbeta  = 12.0000
+     sceeorder =       2
+     dynlmb =  0.0000 logdvdl =       0
+
+| Intermolecular bonds treatment:
+|     no_intermolecular_bonds =       1
+
+| Energy averages sample interval:
+|     ene_avg_sampling =    5000
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       1, eedmeth =       1, netfrc  =       1
+     Box X =   66.953   Box Y =   66.953   Box Z =   66.953
+     Alpha =  109.471   Beta  =  109.471   Gamma =  109.471
+     NFFT1 =   64       NFFT2 =   64       NFFT3 =   64
+     Cutoff=   10.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.27511
+     Interpolation order =    4
+     TI Mask 1 :1; matches      7 atoms
+     TI Mask 2 :2; matches      7 atoms
+     TI region 1:   20848 atoms
+     TI region 2:   20848 atoms
+Removing charge of      -0.8188 from atom       8
+Removing charge of      -0.8188 from atom       9
+Removing charge of       0.8054 from atom      10
+Removing charge of      -0.1021 from atom      11
+Removing charge of      -0.0219 from atom      12
+Removing charge of      -0.0219 from atom      13
+Removing charge of      -0.0219 from atom      14
+Total charge of  -0.99999900 removed from       7 atoms
+     Checking for mismatched coordinates.
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+ begin time read from input coords =     0.000 ps
+
+
+
+           Begin reading energy term weight changes/NMR restraints
+ WEIGHT CHANGES:
+ TEMP0         0  90000    0.000000  300.000000      0      0
+ TEMP0     90001 100000  300.000000  300.000000      0      0
+ DUMPFREQ  10000      0    0.000000    0.000000      0      0
+
+ RESTRAINTS:
+                          ** No restraint defined **
+
+                  Done reading weight changes/NMR restraints
+
+
+ 
+ Number of triangulated 3-point waters found:     6947
+
+     Sum of charges for TI region  1 =  -0.99999900
+     Assuming uniform neutralizing plasma
+
+
+     Sum of charges for TI region  2 =   0.00000000
+     Forcing neutrality...
+
+| Dynamic Memory, Types Used:
+| Reals              915248
+| Integers           793196
+
+| Nonbonded Pairs Initial Allocation:     6308116
+
+| GPU memory information (estimate):
+| KB of GPU memory in use:         0
+| KB of CPU memory in use:         0
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+
+| TI region  1
+
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =    -64935.6429  EKtot   =         0.0000  EPtot      =    -64935.6429
+ BOND   =         0.0420  ANGLE   =         2.8912  DIHED      =         5.2334
+ 1-4 NB =         0.2678  1-4 EEL =         4.5532  VDWAALS    =      5044.4787
+ EELEC  =    -69993.1091  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        15.3839
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =    -64935.6429  EKtot   =         0.0000  EPtot      =    -64935.6429
+ BOND   =         0.0420  ANGLE   =         2.8912  DIHED      =         5.2334
+ 1-4 NB =         0.2678  1-4 EEL =         4.5532  VDWAALS    =      5044.4787
+ EELEC  =    -69993.1091  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        15.3839
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =     5000   TIME(PS) =      10.000  TEMP(K) =    15.95  PRESS =     0.0
+ Etot   =    -81823.7330  EKtot   =       660.9726  EPtot      =    -82484.7056
+ BOND   =         0.0111  ANGLE   =         2.9370  DIHED      =         5.2153
+ 1-4 NB =         0.3460  1-4 EEL =         4.5749  VDWAALS    =     14819.1040
+ EELEC  =    -97316.8940  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        67.8968
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =     5000   TIME(PS) =      10.000  TEMP(K) =    15.95  PRESS =     0.0
+ Etot   =    -81823.7330  EKtot   =       660.9726  EPtot      =    -82484.7056
+ BOND   =         0.0111  ANGLE   =         2.9370  DIHED      =         5.2153
+ 1-4 NB =         0.3460  1-4 EEL =         4.5749  VDWAALS    =     14819.1040
+ EELEC  =    -97316.8940  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        67.8968
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    10000   TIME(PS) =      20.000  TEMP(K) =    32.70  PRESS =     0.0
+ Etot   =    -80662.5860  EKtot   =      1354.9868  EPtot      =    -82017.5729
+ BOND   =         0.0465  ANGLE   =         3.3110  DIHED      =         5.2220
+ 1-4 NB =         0.2681  1-4 EEL =         4.5339  VDWAALS    =     14863.7513
+ EELEC  =    -96894.7057  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        65.4808
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    10000   TIME(PS) =      20.000  TEMP(K) =    32.70  PRESS =     0.0
+ Etot   =    -80662.5860  EKtot   =      1354.9868  EPtot      =    -82017.5729
+ BOND   =         0.0465  ANGLE   =         3.3110  DIHED      =         5.2220
+ 1-4 NB =         0.2681  1-4 EEL =         4.5339  VDWAALS    =     14863.7513
+ EELEC  =    -96894.7057  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        65.4808
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    15000   TIME(PS) =      30.000  TEMP(K) =    49.16  PRESS =     0.0
+ Etot   =    -79468.9131  EKtot   =      2037.0264  EPtot      =    -81505.9395
+ BOND   =         0.3175  ANGLE   =         2.9541  DIHED      =         5.2114
+ 1-4 NB =         0.2702  1-4 EEL =         4.5347  VDWAALS    =     14886.0703
+ EELEC  =    -96405.2978  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.5250
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    15000   TIME(PS) =      30.000  TEMP(K) =    49.16  PRESS =     0.0
+ Etot   =    -79468.9131  EKtot   =      2037.0264  EPtot      =    -81505.9395
+ BOND   =         0.3175  ANGLE   =         2.9541  DIHED      =         5.2114
+ 1-4 NB =         0.2702  1-4 EEL =         4.5347  VDWAALS    =     14886.0703
+ EELEC  =    -96405.2978  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.5250
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    20000   TIME(PS) =      40.000  TEMP(K) =    66.16  PRESS =     0.0
+ Etot   =    -78293.5807  EKtot   =      2741.0408  EPtot      =    -81034.6215
+ BOND   =         0.3834  ANGLE   =         3.5101  DIHED      =         5.2478
+ 1-4 NB =         0.2472  1-4 EEL =         4.5568  VDWAALS    =     14894.8076
+ EELEC  =    -95943.3744  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        58.9817
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    20000   TIME(PS) =      40.000  TEMP(K) =    66.16  PRESS =     0.0
+ Etot   =    -78293.5807  EKtot   =      2741.0408  EPtot      =    -81034.6215
+ BOND   =         0.3834  ANGLE   =         3.5101  DIHED      =         5.2478
+ 1-4 NB =         0.2472  1-4 EEL =         4.5568  VDWAALS    =     14894.8076
+ EELEC  =    -95943.3744  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        58.9817
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    25000   TIME(PS) =      50.000  TEMP(K) =    82.43  PRESS =     0.0
+ Etot   =    -77108.2210  EKtot   =      3415.4772  EPtot      =    -80523.6981
+ BOND   =         0.5071  ANGLE   =         2.9753  DIHED      =         5.2349
+ 1-4 NB =         0.4685  1-4 EEL =         4.6449  VDWAALS    =     14748.8572
+ EELEC  =    -95286.3860  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        70.0886
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    25000   TIME(PS) =      50.000  TEMP(K) =    82.43  PRESS =     0.0
+ Etot   =    -77108.2210  EKtot   =      3415.4772  EPtot      =    -80523.6981
+ BOND   =         0.5071  ANGLE   =         2.9753  DIHED      =         5.2349
+ 1-4 NB =         0.4685  1-4 EEL =         4.6449  VDWAALS    =     14748.8572
+ EELEC  =    -95286.3860  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        70.0886
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    30000   TIME(PS) =      60.000  TEMP(K) =    99.36  PRESS =     0.0
+ Etot   =    -75911.5173  EKtot   =      4116.6756  EPtot      =    -80028.1928
+ BOND   =         0.4371  ANGLE   =         3.3230  DIHED      =         5.2165
+ 1-4 NB =         0.3376  1-4 EEL =         4.5806  VDWAALS    =     14728.6162
+ EELEC  =    -94770.7038  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        62.7521
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    30000   TIME(PS) =      60.000  TEMP(K) =    99.36  PRESS =     0.0
+ Etot   =    -75911.5173  EKtot   =      4116.6756  EPtot      =    -80028.1928
+ BOND   =         0.4371  ANGLE   =         3.3230  DIHED      =         5.2165
+ 1-4 NB =         0.3376  1-4 EEL =         4.5806  VDWAALS    =     14728.6162
+ EELEC  =    -94770.7038  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        62.7521
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    35000   TIME(PS) =      70.000  TEMP(K) =   116.28  PRESS =     0.0
+ Etot   =    -74609.3634  EKtot   =      4817.7041  EPtot      =    -79427.0675
+ BOND   =         0.3311  ANGLE   =         3.4429  DIHED      =         5.2387
+ 1-4 NB =         0.2397  1-4 EEL =         4.5219  VDWAALS    =     14448.2992
+ EELEC  =    -93889.1410  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.0098
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    35000   TIME(PS) =      70.000  TEMP(K) =   116.28  PRESS =     0.0
+ Etot   =    -74609.3634  EKtot   =      4817.7041  EPtot      =    -79427.0675
+ BOND   =         0.3311  ANGLE   =         3.4429  DIHED      =         5.2387
+ 1-4 NB =         0.2397  1-4 EEL =         4.5219  VDWAALS    =     14448.2992
+ EELEC  =    -93889.1410  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.0098
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    40000   TIME(PS) =      80.000  TEMP(K) =   132.30  PRESS =     0.0
+ Etot   =    -73263.5630  EKtot   =      5481.7109  EPtot      =    -78745.2738
+ BOND   =         0.3658  ANGLE   =         3.8216  DIHED      =         5.2181
+ 1-4 NB =         0.2670  1-4 EEL =         4.5554  VDWAALS    =     14354.3629
+ EELEC  =    -93113.8646  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.7573
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    40000   TIME(PS) =      80.000  TEMP(K) =   132.30  PRESS =     0.0
+ Etot   =    -73263.5630  EKtot   =      5481.7109  EPtot      =    -78745.2738
+ BOND   =         0.3658  ANGLE   =         3.8216  DIHED      =         5.2181
+ 1-4 NB =         0.2670  1-4 EEL =         4.5554  VDWAALS    =     14354.3629
+ EELEC  =    -93113.8646  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        63.7573
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    45000   TIME(PS) =      90.000  TEMP(K) =   148.67  PRESS =     0.0
+ Etot   =    -72097.7249  EKtot   =      6159.6946  EPtot      =    -78257.4195
+ BOND   =         0.0295  ANGLE   =         4.1106  DIHED      =         5.2243
+ 1-4 NB =         0.2486  1-4 EEL =         4.5705  VDWAALS    =     14378.0115
+ EELEC  =    -92649.6146  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.8100
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    45000   TIME(PS) =      90.000  TEMP(K) =   148.67  PRESS =     0.0
+ Etot   =    -72097.7249  EKtot   =      6159.6946  EPtot      =    -78257.4195
+ BOND   =         0.0295  ANGLE   =         4.1106  DIHED      =         5.2243
+ 1-4 NB =         0.2486  1-4 EEL =         4.5705  VDWAALS    =     14378.0115
+ EELEC  =    -92649.6146  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.8100
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    50000   TIME(PS) =     100.000  TEMP(K) =   165.42  PRESS =     0.0
+ Etot   =    -70566.6583  EKtot   =      6853.9732  EPtot      =    -77420.6315
+ BOND   =         0.2503  ANGLE   =         3.9415  DIHED      =         5.3078
+ 1-4 NB =         0.5588  1-4 EEL =         4.6721  VDWAALS    =     13955.0268
+ EELEC  =    -91390.3889  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        61.1117
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    50000   TIME(PS) =     100.000  TEMP(K) =   165.42  PRESS =     0.0
+ Etot   =    -70566.6583  EKtot   =      6853.9732  EPtot      =    -77420.6315
+ BOND   =         0.2503  ANGLE   =         3.9415  DIHED      =         5.3078
+ 1-4 NB =         0.5588  1-4 EEL =         4.6721  VDWAALS    =     13955.0268
+ EELEC  =    -91390.3889  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        61.1117
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    55000   TIME(PS) =     110.000  TEMP(K) =   183.79  PRESS =     0.0
+ Etot   =    -68901.6189  EKtot   =      7615.1252  EPtot      =    -76516.7441
+ BOND   =         0.1638  ANGLE   =         3.6755  DIHED      =         5.2530
+ 1-4 NB =         0.2046  1-4 EEL =         4.5537  VDWAALS    =     13736.5903
+ EELEC  =    -90267.1851  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        66.4204
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    55000   TIME(PS) =     110.000  TEMP(K) =   183.79  PRESS =     0.0
+ Etot   =    -68901.6189  EKtot   =      7615.1252  EPtot      =    -76516.7441
+ BOND   =         0.1638  ANGLE   =         3.6755  DIHED      =         5.2530
+ 1-4 NB =         0.2046  1-4 EEL =         4.5537  VDWAALS    =     13736.5903
+ EELEC  =    -90267.1851  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        66.4204
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    60000   TIME(PS) =     120.000  TEMP(K) =   200.76  PRESS =     0.0
+ Etot   =    -67123.8246  EKtot   =      8318.1823  EPtot      =    -75442.0068
+ BOND   =         0.2603  ANGLE   =         7.8089  DIHED      =         5.4491
+ 1-4 NB =         0.3130  1-4 EEL =         4.5178  VDWAALS    =     13386.8647
+ EELEC  =    -88847.2207  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        84.0536
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    60000   TIME(PS) =     120.000  TEMP(K) =   200.76  PRESS =     0.0
+ Etot   =    -67123.8246  EKtot   =      8318.1823  EPtot      =    -75442.0068
+ BOND   =         0.2603  ANGLE   =         7.8089  DIHED      =         5.4491
+ 1-4 NB =         0.3130  1-4 EEL =         4.5178  VDWAALS    =     13386.8647
+ EELEC  =    -88847.2207  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        84.0536
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    65000   TIME(PS) =     130.000  TEMP(K) =   214.27  PRESS =     0.0
+ Etot   =    -65250.2399  EKtot   =      8877.9339  EPtot      =    -74128.1738
+ BOND   =         0.6317  ANGLE   =         6.8876  DIHED      =         5.2789
+ 1-4 NB =         0.2515  1-4 EEL =         4.5257  VDWAALS    =     12832.3564
+ EELEC  =    -86978.1055  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        72.1754
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    65000   TIME(PS) =     130.000  TEMP(K) =   214.27  PRESS =     0.0
+ Etot   =    -65250.2399  EKtot   =      8877.9339  EPtot      =    -74128.1738
+ BOND   =         0.6317  ANGLE   =         6.8876  DIHED      =         5.2789
+ 1-4 NB =         0.2515  1-4 EEL =         4.5257  VDWAALS    =     12832.3564
+ EELEC  =    -86978.1055  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        72.1754
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    70000   TIME(PS) =     140.000  TEMP(K) =   233.35  PRESS =     0.0
+ Etot   =    -62288.6426  EKtot   =      9668.3020  EPtot      =    -71956.9446
+ BOND   =         1.6457  ANGLE   =         4.0023  DIHED      =         5.3117
+ 1-4 NB =         0.2332  1-4 EEL =         4.5350  VDWAALS    =     12062.3018
+ EELEC  =    -84034.9742  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        68.6807
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    70000   TIME(PS) =     140.000  TEMP(K) =   233.35  PRESS =     0.0
+ Etot   =    -62288.6426  EKtot   =      9668.3020  EPtot      =    -71956.9446
+ BOND   =         1.6457  ANGLE   =         4.0023  DIHED      =         5.3117
+ 1-4 NB =         0.2332  1-4 EEL =         4.5350  VDWAALS    =     12062.3018
+ EELEC  =    -84034.9742  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        68.6807
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    75000   TIME(PS) =     150.000  TEMP(K) =   250.89  PRESS =     0.0
+ Etot   =    -59678.7918  EKtot   =     10395.0848  EPtot      =    -70073.8766
+ BOND   =         0.3389  ANGLE   =         5.5131  DIHED      =         5.2188
+ 1-4 NB =         0.1823  1-4 EEL =         4.5232  VDWAALS    =     11097.4475
+ EELEC  =    -81187.1005  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        62.4102
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    75000   TIME(PS) =     150.000  TEMP(K) =   250.89  PRESS =     0.0
+ Etot   =    -59678.7918  EKtot   =     10395.0848  EPtot      =    -70073.8766
+ BOND   =         0.3389  ANGLE   =         5.5131  DIHED      =         5.2188
+ 1-4 NB =         0.1823  1-4 EEL =         4.5232  VDWAALS    =     11097.4475
+ EELEC  =    -81187.1005  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        62.4102
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    80000   TIME(PS) =     160.000  TEMP(K) =   265.21  PRESS =     0.0
+ Etot   =    -57360.2839  EKtot   =     10988.4634  EPtot      =    -68348.7473
+ BOND   =         2.6057  ANGLE   =         4.0957  DIHED      =         5.2173
+ 1-4 NB =         0.4453  1-4 EEL =         4.6563  VDWAALS    =     10411.6332
+ EELEC  =    -78777.4008  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        91.9037
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    80000   TIME(PS) =     160.000  TEMP(K) =   265.21  PRESS =     0.0
+ Etot   =    -57360.2839  EKtot   =     10988.4634  EPtot      =    -68348.7473
+ BOND   =         2.6057  ANGLE   =         4.0957  DIHED      =         5.2173
+ 1-4 NB =         0.4453  1-4 EEL =         4.6563  VDWAALS    =     10411.6332
+ EELEC  =    -78777.4008  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        91.9037
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    85000   TIME(PS) =     170.000  TEMP(K) =   281.38  PRESS =     0.0
+ Etot   =    -55083.4960  EKtot   =     11658.2198  EPtot      =    -66741.7158
+ BOND   =         0.3909  ANGLE   =         5.8284  DIHED      =         5.3045
+ 1-4 NB =         0.4433  1-4 EEL =         4.6379  VDWAALS    =      9920.8851
+ EELEC  =    -76679.2059  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.6936
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    85000   TIME(PS) =     170.000  TEMP(K) =   281.38  PRESS =     0.0
+ Etot   =    -55083.4960  EKtot   =     11658.2198  EPtot      =    -66741.7158
+ BOND   =         0.3909  ANGLE   =         5.8284  DIHED      =         5.3045
+ 1-4 NB =         0.4433  1-4 EEL =         4.6379  VDWAALS    =      9920.8851
+ EELEC  =    -76679.2059  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.6936
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    90000   TIME(PS) =     180.000  TEMP(K) =   296.38  PRESS =     0.0
+ Etot   =    -52790.7743  EKtot   =     12280.0515  EPtot      =    -65070.8258
+ BOND   =         1.6333  ANGLE   =         5.9929  DIHED      =         5.2030
+ 1-4 NB =         0.4368  1-4 EEL =         4.5805  VDWAALS    =      9469.8789
+ EELEC  =    -74558.5513  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        61.8282
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    90000   TIME(PS) =     180.000  TEMP(K) =   296.38  PRESS =     0.0
+ Etot   =    -52790.7743  EKtot   =     12280.0515  EPtot      =    -65070.8258
+ BOND   =         1.6333  ANGLE   =         5.9929  DIHED      =         5.2030
+ 1-4 NB =         0.4368  1-4 EEL =         4.5805  VDWAALS    =      9469.8789
+ EELEC  =    -74558.5513  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        61.8282
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =    95000   TIME(PS) =     190.000  TEMP(K) =   297.96  PRESS =     0.0
+ Etot   =    -52785.3844  EKtot   =     12345.2499  EPtot      =    -65130.6343
+ BOND   =         0.2711  ANGLE   =         5.3925  DIHED      =         5.3813
+ 1-4 NB =         0.5656  1-4 EEL =         4.6457  VDWAALS    =      9215.9067
+ EELEC  =    -74362.7971  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.4523
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =    95000   TIME(PS) =     190.000  TEMP(K) =   297.96  PRESS =     0.0
+ Etot   =    -52785.3844  EKtot   =     12345.2499  EPtot      =    -65130.6343
+ BOND   =         0.2711  ANGLE   =         5.3925  DIHED      =         5.3813
+ 1-4 NB =         0.5656  1-4 EEL =         4.6457  VDWAALS    =      9215.9067
+ EELEC  =    -74362.7971  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        71.4523
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =   298.77  PRESS =     0.0
+ Etot   =    -52765.1738  EKtot   =     12378.8006  EPtot      =    -65143.9743
+ BOND   =         0.1675  ANGLE   =         6.0354  DIHED      =         5.2452
+ 1-4 NB =         0.3738  1-4 EEL =         4.5753  VDWAALS    =      9327.6584
+ EELEC  =    -74488.0300  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        81.0121
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =   298.77  PRESS =     0.0
+ Etot   =    -52765.1738  EKtot   =     12378.8006  EPtot      =    -65143.9743
+ BOND   =         0.1675  ANGLE   =         6.0354  DIHED      =         5.2452
+ 1-4 NB =         0.3738  1-4 EEL =         4.5753  VDWAALS    =      9327.6584
+ EELEC  =    -74488.0300  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        81.0121
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+| TI region  1
+
+
+      A V E R A G E S   O V E R      20 S T E P S
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =   171.56  PRESS =     0.0
+ Etot   =    -67891.7045  EKtot   =      7108.2338  EPtot      =    -74999.9383
+ BOND   =         0.5394  ANGLE   =         4.4780  DIHED      =         5.2600
+ 1-4 NB =         0.3351  1-4 EEL =         4.5749  VDWAALS    =     12876.9215
+ EELEC  =    -87892.0471  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        69.0022
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =    92.03  PRESS =     0.0
+ Etot   =      9785.1011  EKtot   =      3813.2693  EPtot      =      6050.8538
+ BOND   =         0.6409  ANGLE   =         1.3943  DIHED      =         0.0620
+ 1-4 NB =         0.1124  1-4 EEL =         0.0486  VDWAALS    =      2098.6173
+ EELEC  =      8135.6919  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =         8.1796
+ ------------------------------------------------------------------------------
+
+
+| TI region  2
+
+
+      A V E R A G E S   O V E R      20 S T E P S
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =   171.56  PRESS =     0.0
+ Etot   =    -67891.7045  EKtot   =      7108.2338  EPtot      =    -74999.9383
+ BOND   =         0.5394  ANGLE   =         4.4780  DIHED      =         5.2600
+ 1-4 NB =         0.3351  1-4 EEL =         4.5749  VDWAALS    =     12876.9215
+ EELEC  =    -87892.0471  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        69.0022
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =    92.03  PRESS =     0.0
+ Etot   =      9785.1011  EKtot   =      3813.2693  EPtot      =      6050.8538
+ BOND   =         0.6409  ANGLE   =         1.3943  DIHED      =         0.0620
+ 1-4 NB =         0.1124  1-4 EEL =         0.0486  VDWAALS    =      2098.6173
+ EELEC  =      8135.6919  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =         8.1796
+ ------------------------------------------------------------------------------
+
+
+      DV/DL, AVERAGES OVER      20 STEPS
+
+
+ NSTEP =   100000   TIME(PS) =     200.000  TEMP(K) =    92.03  PRESS =     0.0
+ Etot   =         0.0000  EKtot   =         0.0000  EPtot      =        69.0022
+ BOND   =         0.0000  ANGLE   =         0.0000  DIHED      =         0.0000
+ 1-4 NB =         0.0000  1-4 EEL =       -10.4597  VDWAALS    =         0.0000
+ EELEC  =        79.4619  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ DV/DL  =        69.0022
+ ------------------------------------------------------------------------------
+
+
+ NMR restraints on final step:
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|  NonSetup CPU Time in Major Routines:
+|
+|     Routine           Sec        %
+|     ------------------------------
+|     Nonbond          84.92   33.99
+|     Bond              0.00    0.00
+|     Angle             0.00    0.00
+|     Dihedral          0.00    0.00
+|     Shake             0.80    0.32
+|     RunMD           163.86   65.58
+|     Other             0.28    0.11
+|     ------------------------------
+|     Total           249.87
+
+|  PME Nonbond Pairlist CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     Set Up Cit           0.00    0.00
+|     Build List           0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  PME Direct Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     NonBonded Calc       0.00    0.00
+|     Exclude Masked       0.00    0.00
+|     Other                0.19    0.08
+|     ---------------------------------
+|     Total                0.19    0.08
+
+|  PME Reciprocal Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     1D bspline           0.00    0.00
+|     Grid Charges         0.00    0.00
+|     Scalar Sum           0.00    0.00
+|     Gradient Sum         0.00    0.00
+|     FFT                  0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  Final Performance Info:
+|     -----------------------------------------------------
+|     Average timings for last       1 steps:
+|     Elapsed(s) =       0.00 Per Step(ms) =       1.21
+|         ns/day =     143.05   seconds/ns =     604.00
+|
+|     Average timings for all steps:
+|     Elapsed(s) =     249.97 Per Step(ms) =       2.50
+|         ns/day =      69.13   seconds/ns =    1249.85
+|     -----------------------------------------------------
+
+|  Setup CPU time:            0.57 seconds
+|  NonSetup CPU time:       249.87 seconds
+|  Total CPU time:          250.44 seconds     0.07 hours
+
+|  Setup wall time:           1    seconds
+|  NonSetup wall time:      250    seconds
+|  Total wall time:         251    seconds     0.07 hours
